@@ -25,3 +25,4 @@ foreach($site in $siteColl)
 ##Remove Everyone 
   Remove-PnPUser -Identity "Everyone" -Confirm:$false
   write-host -ForegroundColor Green "Removing Everyone from: " $site.Url  
+  }
