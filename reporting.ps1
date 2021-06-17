@@ -1,12 +1,13 @@
 
 #### 
-###Run this on the server that will remove the script
+### Add-PnpStoredCredential just run one time only
 ####Add-PnPStoredCredential -Name "O365" -Username yourname@tenant.onmicrosoft.com -Password (ConvertTo-SecureString -String "YourPassword" -AsPlainText -Force)
 
 
 #### Add $owner to each site collection to get permission for the site collection and webs
 
-$Owner = "JohannaL@GOV0645.OnMicrosoft.com"
+$Owner = "JohannaL@GOV2145.OnMicrosoft.com"
+$User = "DiegoS"
 #endregion Parameters
 
 #Get all the site collections  
@@ -22,15 +23,14 @@ foreach($site in $siteColl)
 Set-PnPTenantSite -identity $site.URL -Owners $Owner
 
 ### Get Users Permission
-##### Replace Mose with how the user name is displayed in O365
-$perm = Get-PnPUser -withrightsAssignedDetailed | Where-Object {$_.Title.Startswith('Diego')}
+$perm = Get-PnPUser -withrightsAssignedDetailed | Where-Object {$_.Email.Startswith($User)}
 
 $perm = [pscustomobject]@{'Url'= $site.url;'User' = $perm.Title;'Groups' = $perm.Groups; 'Permissions' = $perm.Permissions; }
 
 ###Export to CSV
 
 $perm | Select-Object  Url,User, @{Name ='Groups';expression={[string]::join(";",($_.Groups))}}, @{Name ='Permissions';expression={[string]::join(";",($_.Permissions))}} | Export-Csv -Path PermFile.csv -Append -force 
-
+$perm
 write-host -ForegroundColor Green "Working on " $site.Url 
  
   #### Remove $owner from the site
