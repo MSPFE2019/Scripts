@@ -6,7 +6,7 @@
 
 #### Add $owner to each site collection to get permission for the site collection and webs
 
-$Owner = "JohannaL@GOV2145.OnMicrosoft.com"
+$Owner = "JohannaL@2145.OnMicrosoft.com"
 $User = "DiegoS"
 #endregion Parameters
 
